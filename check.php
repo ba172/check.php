@@ -15,7 +15,7 @@ if (!preg_match('/^\d{8}$/', $input)) {
 // قراءة الأكواد من Environment Variable
 $codes_env = getenv("CODES_JSON");
 if (!$codes_env) {
-    echo json_encode(["status" => "error", "message" => "الكود غير موجود في البيئة"]);
+    echo json_encode(["status" => "error", "message" => "code no't found"]);
     exit;
 }
 
@@ -23,7 +23,7 @@ $codes = json_decode($codes_env, true);
 
 // تحقق من الكود
 if (!isset($codes[$input])) {
-    echo json_encode(["status" => "denied", "message" => "كود غير صالح"]);
+    echo json_encode(["status" => "denied", "message" => "code no't work !! ]);
     exit;
 }
 
