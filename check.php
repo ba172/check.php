@@ -8,7 +8,7 @@ $input = $_POST['input'] ?? '';
 
 // تحقق: يجب أن يكون 8 أرقام
 if (!preg_match('/^\d{8}$/', $input)) {
-    echo json_encode(["status" => "denied", "message" => "كود غير صحيح"]);
+    echo json_encode(["status" => "denied", "message" => "wrong code"]);
     exit;
 }
 
