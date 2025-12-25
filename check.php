@@ -3,10 +3,8 @@ header("Content-Type: application/json");
 header("X-Content-Type-Options: nosniff");
 header("X-Frame-Options: DENY");
 
-// استقبال الكود
 $input = $_POST['input'] ?? '';
 
-// تحقق: يجب أن يكون 8 أرقام
 if (!preg_match('/^\d{8}$/', $input)) {
     echo json_encode(["status" => "denied", "message" => "wrong code"]);
     exit;
