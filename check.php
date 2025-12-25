@@ -37,3 +37,4 @@ echo json_encode([
     "count"  => count($emails),
     "emails" => $emails
 ], JSON_UNESCAPED_UNICODE);
+?>
