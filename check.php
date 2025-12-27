@@ -9,7 +9,6 @@ $codes = json_decode($codes_json, true);
 
 // تحقق منطقي فقط
 if (isset($codes[$input]) && $codes[$input] == 1) {
-
     // جلب الإيميلات
     $emails_txt = getenv('EMAILS_TXT');
     $emails = array_filter(array_map('trim', explode("\n", $emails_txt)));
@@ -24,14 +23,9 @@ if (isset($codes[$input]) && $codes[$input] == 1) {
 // في حال الكود غير موجود
 echo json_encode([
     "status" => "denied",
-    "message" => "CODE NOT FOUND"
-]);
-
-
-echo json_encode([
+    "message" => "CODE NOT FOUND",
     "debug_input" => $input,
-    "codes_env" => $codes
+    "received_codes" => $codes
 ]);
 exit;
-
 ?>
