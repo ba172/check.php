@@ -1,40 +1,28 @@
 <?php
-header("Content-Type: application/json");
-header("X-Content-Type-Options: nosniff");
-header("X-Frame-Options: DENY");
+header('Content-Type: application/json');
 
-// استقبال الكود
-$input = $_POST['input'] ?? '';  // الكود المدخل من قبل المستخدم
+$input = $_POST['input'] ?? '';
 
-// تحقق: يجب أن يكون 8 أرقام
-if (!preg_match('/^\d{8}$/', $input)) {
-    echo json_encode(["status" => "denied", "message" => "CODE N'T WORK"]);
+// جلب الأكواد من Environment
+$codes_json = getenv('CODES_JSON');
+$codes = json_decode($codes_json, true);
+
+// تحقق منطقي فقط
+if (isset($codes[$input]) && $codes[$input] == 1) {
+
+    // جلب الإيميلات
+    $emails_txt = getenv('EMAILS_TXT');
+    $emails = array_filter(array_map('trim', explode("\n", $emails_txt)));
+
+    echo json_encode([
+        "status" => "allowed",
+        "emails" => $emails
+    ]);
     exit;
 }
 
-// قراءة الأكواد من Environment Variable
-$codes_env = getenv("CODES_JSON");
-if (!$codes_env) {
-    echo json_encode(["status" => "error", "message" => " ERROR "]);
-    exit;
-}
-
-$codes = json_decode($codes_env, true);
-
-// تحقق من الكود
-if (!isset($codes[$input])) {
-    echo json_encode(["status" => "denied", "message" => "FAILD CODE !!!"]);
-    exit;
-}
-
-// قراءة الإيميلات من Environment Variable
-$emails_env = getenv("EMAILS_TXT");
-$emails = $emails_env ? explode("\n", $emails_env) : [];
-
-// إرجاع الإيميلات للمستخدم في JSON
+// في حال الكود غير موجود
 echo json_encode([
-    "status" => "allowed",
-    "count"  => count($emails),
-    "emails" => $emails
-], JSON_UNESCAPED_UNICODE);
-?>
+    "status" => "denied",
+    "message" => "CODE NOT FOUND"
+]);
