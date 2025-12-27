@@ -26,3 +26,12 @@ echo json_encode([
     "status" => "denied",
     "message" => "CODE NOT FOUND"
 ]);
+
+
+echo json_encode([
+    "debug_input" => $input,
+    "codes_env" => $codes
+]);
+exit;
+
+?>
